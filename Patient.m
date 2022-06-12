@@ -1,4 +1,4 @@
-
+% Pelin Koc 2444800 İlkay Koc 2444792
 classdef Patient
     properties
     name

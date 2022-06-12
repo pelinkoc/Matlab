@@ -8,36 +8,39 @@ classdef Patient
     end
 
     methods
-        function     P=Patient(name,surname,priorty,day)
-
-
-
-        end
-        
-        function     pri=getPatientPriorty(self)
-
-
-
-        end
-
-      function     setPatientPriorty(self)
-
+        function     P=Patient(n,sn,pri,dy)
+            if nargin==4
+                P.name=n;
+                P.surname=sn;
+                P.priorty=pri;
+                P.day=dy;
+            end
 
 
         end
 
 
-        function     day=getPatientDay(self)
+        function   setPatientPriorty(self,pri)
+          self.priorty=pri;
+        end
 
-
+        function  pri=getPatientPriorty(self)
+            pri=self.priorty;
 
         end
 
-        function     setPatientDay(self)
-
-
+         function  setPatientDay(self,dy)
+            self.day=dy;
 
         end
+
+
+        function  dy=getPatientDay(self)
+            dy=self.day;
+
+        end
+
+
     end
 
 end

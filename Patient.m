@@ -8,6 +8,12 @@ classdef Patient
     end
 
     methods
+        function     P=Patient(name,surname,priorty,day)
+
+
+
+        end
+        
         function     pri=getPatientPriorty(self)
 
 

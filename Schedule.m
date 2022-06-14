@@ -11,10 +11,12 @@ classdef Schedule < handle
     methods
         function schedule= Schedule(dplanninghorizon, planningd, nuofrooms, finalsche)
         %constructor function
-        schedule.dailyPlanningHorizon= dplanninghorizon;
-        schedule.planningDays= planningd;
-        schedule.numberOfRooms= nuofrooms;
-        schedule.finalSchedule= finalsche;
+        if nargin == 4
+            schedule.dailyPlanningHorizon= dplanninghorizon;
+            schedule.planningDays= planningd;
+            schedule.numberOfRooms= nuofrooms;
+            schedule.finalSchedule= finalsche;
+        end    
 
         end
 

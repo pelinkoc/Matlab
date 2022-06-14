@@ -13,12 +13,14 @@ classdef Operation < handle
     methods
         function oprtn = Operation(i, pt, availableint, scheduledint, drt, oday)
             %constructor function
-            oprtn.id= i;
-            oprtn.patient= pt;
-            oprtn.availableInterval= availableint;
-            oprtn.scheduledInterval= scheduledint;
-            oprtn.duration= drt;
-            oprtn.operationDay= oday;
+            if nargin == 6
+                oprtn.id= i;
+                oprtn.patient= pt;
+                oprtn.availableInterval= availableint;
+                oprtn.scheduledInterval= scheduledint;
+                oprtn.duration= drt;
+                oprtn.operationDay= oday;
+            end     
 
         end
 

@@ -9,8 +9,13 @@ classdef Schedule < handle
     end
 
     methods
-        function schedule= Schedule()
+        function schedule= Schedule(dplanninghorizon, planningd, nuofrooms, finalsche)
         %constructor function
+        schedule.dailyPlanningHorizon= dplanninghorizon;
+        schedule.planningDays= planningd;
+        schedule.numberOfRooms= nuofrooms;
+        schedule.finalSchedule= finalsche;
+
         end
 
         function constructSchedule()

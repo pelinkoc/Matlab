@@ -11,16 +11,14 @@ classdef Operation < handle
     end
 
     methods
-        function oprtn = Operation(i, pt, aint, sint, drt, oday)
+        function oprtn = Operation(i, pt, availableint, scheduledint, drt, oday)
             %constructor function
-            if nargin=6
             oprtn.id= i;
             oprtn.patient= pt;
-            oprtn.availableInterval= aint;
-            oprtn.scheduledInterval= sint;
+            oprtn.availableInterval= availableint;
+            oprtn.scheduledInterval= scheduledint;
             oprtn.duration= drt;
             oprtn.operationDay= oday;
-            end
 
         end
 
@@ -38,7 +36,6 @@ classdef Operation < handle
         end  
     end
 end    
-
 
 
 

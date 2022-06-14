@@ -10,8 +10,10 @@ classdef Interval < handle
     methods
         function Inter = Interval(lt, rt)
         % Constructor:  construct an Interval object
+            if nargin==2
             Inter.left= lt;
             Inter.right= rt;
+            end
         end
         
         function w = getWidth(self)

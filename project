@@ -1,0 +1,78 @@
+
+clear
+clc
+
+a=readcell('InputData');
+
+day1=[];
+sizea=size(a);
+for i=2:sizea(1,1)
+    if a{i,4}==1 
+        day1=[day1; a(i,:)];
+    end
+
+end
+
+sday1 = sortrows(day1, 6,'ascend');
+op=sday1(1,:);
+pa = Patient(op{2}, op{3},op{8},op{4});
+pa.setPatientPriorty(0);
+pa.setPatientDay(2);
+
+pa.getPatientPriorty()
+pa.getPatientDay
+
+%to obtain operation
+% for i=2:size(day)
+%     
+% end
+
+
+
+
+day2=[];
+
+for i=2:sizea(1,1)
+    if a{i,4}==2 
+        day2=[day2; a(i,:)];
+    end
+
+end
+
+
+
+day3=[];
+
+for i=2:sizea(1,1)
+    if a{i,4}==3
+        day3=[day3; a(i,:)];
+    end
+
+end
+
+day4=[];
+for i=2:sizea(1,1)
+    if a{i,4}==3
+        day4=[day4; a(i,:)];
+    end
+
+end
+
+
+
+
+
+
+
+% d=Interval(day1{1,6},day1{1,7})
+% c=Interval(day1{1,6},350)
+% c.isIn(d)
+% 
+% 
+% temp1=[];
+% for i=2:size(day1)
+%     if day1{i,8}==1 
+%         temp1=[temp1; day1(i,:)];
+%     end
+% 
+% end

@@ -22,6 +22,7 @@ classdef Patient
 
         function   setPatientPriorty(self,pri)
           self.priorty=pri;
+          %Change patient priorty
         end
 
         function  pri=getPatientPriorty(self)
@@ -31,6 +32,7 @@ classdef Patient
 
          function  setPatientDay(self,dy)
             self.day=dy;
+            %Change patient operation day
 
         end
 
@@ -44,10 +46,6 @@ classdef Patient
     end
 
 end
-
-
-
-
 
 
 

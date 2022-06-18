@@ -4,6 +4,13 @@ clc
 
 a=readcell('InputData');
 
+room1=[];
+room2= [];
+room3=[];
+next=[];
+op1=0;
+op2=0;
+op3=0;
 day1=[];
 sizea=size(a);
 for i=2:sizea(1,1)
@@ -13,66 +20,47 @@ for i=2:sizea(1,1)
 
 end
 
+
+
+%sday1 = sortrows(day1, 8,'ascend');
 sday1 = sortrows(day1, 6,'ascend');
-op=sday1(1,:);
-pa = Patient(op{2}, op{3},op{8},op{4});
-pa.setPatientPriorty(0);
-pa.setPatientDay(2);
 
-pa.getPatientPriorty()
-pa.getPatientDay
-
-%to obtain operation
-% for i=2:size(day)
-%     
-% end
-
-
-
-
-day2=[];
-
-for i=2:sizea(1,1)
-    if a{i,4}==2 
-        day2=[day2; a(i,:)];
+%we sort again for priorty
+for i=1:size(sday1)-1
+    if sday1{i,6}==sday1{i+1,6} && sday1{i,8}>sday1{i+1,8}
+        temp=sday1(i,:);
+        sday1(i,:)=sday1(i+1,:);
+        sday1(i+1,:)=temp;
     end
-
 end
 
 
 
-day3=[];
+for i=1:size(sday1)
 
-for i=2:sizea(1,1)
-    if a{i,4}==3
-        day3=[day3; a(i,:)];
-    end
-
+op=sday1(i,:);
+patient(i) = Patient(op{2}, op{3},op{8},op{4});
+aint(i)=Interval(op{6},op{7});
+sint(i)=Interval(op{6},op{6}+op{5});
 end
-
-day4=[];
-for i=2:sizea(1,1)
-    if a{i,4}==3
-        day4=[day4; a(i,:)];
-    end
-
+l1=[];
+l2=[];
+l3=[];
+r=[];
+for i=1:size(sday1)
+if op1<=sint(1,i).left 
+    op1=sint(1,i).right;
+    room1=[room1 patient(i)];
+    l1=[l1 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+elseif op2<=sint(1,i).left
+     op2=sint(1,i).right;
+    room2=[room2 patient(i)];
+    l2=[l2 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+elseif op3<=sint(1,i).left
+     op3=sint(1,i).right;
+    room3=[room3 patient(i)];
+    l3=[l3 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+else
+    next=[next patient(i)];
 end
-
-
-
-
-
-
-
-% d=Interval(day1{1,6},day1{1,7})
-% c=Interval(day1{1,6},350)
-% c.isIn(d)
-% 
-% 
-% temp1=[];
-% for i=2:size(day1)
-%     if day1{i,8}==1 
-%         temp1=[temp1; day1(i,:)];
-%     end
-% 
-% end
+end

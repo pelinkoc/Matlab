@@ -1,66 +1,155 @@
-
+% Pelin Koc 2444800 İlkay Koc 2444792
 clear
 clc
-
-a=readcell('InputData');
+data=readcell('InputData');
 
 room1=[];
 room2= [];
 room3=[];
+nextp=[];
 next=[];
 op1=0;
 op2=0;
 op3=0;
-day1=[];
-sizea=size(a);
-for i=2:sizea(1,1)
-    if a{i,4}==1 
-        day1=[day1; a(i,:)];
-    end
-
-end
-
-
-
-%sday1 = sortrows(day1, 8,'ascend');
-sday1 = sortrows(day1, 6,'ascend');
-
-%we sort again for priorty
-for i=1:size(sday1)-1
-    if sday1{i,6}==sday1{i+1,6} && sday1{i,8}>sday1{i+1,8}
-        temp=sday1(i,:);
-        sday1(i,:)=sday1(i+1,:);
-        sday1(i+1,:)=temp;
-    end
-end
-
-
-
-for i=1:size(sday1)
-
-op=sday1(i,:);
-patient(i) = Patient(op{2}, op{3},op{8},op{4});
-aint(i)=Interval(op{6},op{7});
-sint(i)=Interval(op{6},op{6}+op{5});
-end
 l1=[];
 l2=[];
 l3=[];
-r=[];
+day1=[];
+sizedata=size(data);
+for i=2:sizedata(1,1)
+    if data{i,4}==1 
+        day1=[day1; data(i,:)];
+    end
+end
+
+sday1 = sortrows(day1, 6,'ascend');
+
 for i=1:size(sday1)
+    op=sday1(i,:);
+    patients(i) = Patient(op{2}, op{3},op{8},op{4});
+    aint(i)=Interval(op{6},op{7});
+    sint(i)=Interval(op{6},op{6}+op{5});
+    oroom=0;
+    operations(i)=Operation(op{1}, patients(i), aint(i), sint(i), op{5}, op{4},oroom);
+end
+
+for i=1:size(sday1)
+    k=0;
+    while k==0
 if op1<=sint(1,i).left 
     op1=sint(1,i).right;
-    room1=[room1 patient(i)];
+    id=sday1(i,1);
+    room1=[room1 sint(i)];
     l1=[l1 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+    k=1;
+    oroom=1;
+    operations(1,i).operationRoom=oroom;
 elseif op2<=sint(1,i).left
      op2=sint(1,i).right;
-    room2=[room2 patient(i)];
+     id=sday1(i,1);
+    room2=[room2 sint(i)];
     l2=[l2 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+    k=1;
+    oroom=2;
+    operations(1,i).operationRoom=oroom;
 elseif op3<=sint(1,i).left
      op3=sint(1,i).right;
-    room3=[room3 patient(i)];
+     id=sday1(i,1);
+    room3=[room3 sint(i)];
     l3=[l3 ;sint(1,i).left,sint(1,i).right,aint(1,i).right];
+    k=1;
+    oroom=3;
+    operations(1,i).operationRoom=oroom;
 else
-    next=[next patient(i)];
+    sint(i).shift(10)
+    if sint(i).isIn(aint(i))==1
+        k=0;
+    else
+    %next=[next ;i,sint(1,i).left,sint(1,i).right,aint(1,i).right];
+    next=[next; sint(i)];
+    nextp=[nextp patients(i)];
+    k=1;   
+    end
 end
+
+end
+end
+
+for j=1:size(next)
+add=0;
+if op1~=480
+    l=length(room1);
+    
+    for i=l:-1:2
+        k=0;
+        while k==0
+        room1(i).shift(10)
+    if room1(i).isIn(Interval(l1(i,1),l1(i,3)))==1 
+        if next(j).left>=room1(i-1).right && next(j).right<=room1(i).left 
+            fprintf('add1')
+            t=i;
+            room1=[room1(1:t-1),next(j),room1(t:l)];
+            add=1;
+            k=1;
+            return
+        end
+    else
+        room1(i).shift(-10)
+        k=1;
+    end
+        end
+    end
+end
+
+if op2~=480 && add~=1
+        l=length(room2);
+    for i=l:-1:2
+        k=0;
+        while k==0
+        room2(i).shift(10)
+    if room2(i).isIn(Interval(l2(i,1),l2(i,3)))==1
+        if next(j).left>=room2(i-1).right && next(j).right<=room2(i).left
+            fprintf('add2')
+            t=i;
+            room2=[room2(1:t-1),next(j),room2(t:l)];
+            add=1;
+            k=1;
+        end
+    else
+        room2(i).shift(-10)
+        k=1;
+    end
+        end
+    end
+end
+
+if op3~=480 && add~=1
+        l=length(room3);    
+    for i=l:-1:2
+        k=0;
+        while k==0
+        room3(i).shift(10)
+    if room3(i).isIn(Interval(l3(i,1),l3(i,3)))==1
+        if next(j).left>=room3(i-1).right && next(j).right<=room3(i).left 
+            fprintf('add3')
+            t=i;
+            room3=[room3(1:t-1),next(j),room3(t:l)];
+            add=1;
+            k=1;
+        end
+    else
+        room3(i).shift(-10)
+        k=1;
+    end
+        end
+    end
+end
+end
+
+[a,b]=size(nextp);
+if b~=0
+    for i=1:b
+    setPatientDay(nextp(1,i),3)
+    setPatientPriorty(nextp(1,i),0)
+    end
 end
